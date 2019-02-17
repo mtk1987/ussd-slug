@@ -1,0 +1,104 @@
+{% extends base_template %}
+{% load i18n %}
+{% block title %}Sungapo USSD{% endblock %}
+{% block content %}
+
+{% block left %}
+
+<div class="module">
+
+    <h2>SIM Cards</h2>
+    <table width="100%">
+        <thead>
+        <tr>
+            <th>Mobile Operator</th>
+            <th>Backend</th>
+            <th>Airtime Balance</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sim in sims %}
+        <tr>
+            <td>{{ sim.operator_name }}</td>
+            <td>{{ sim.backend.slug }}</td>
+            <td>{{ sim.balance }} CFA</td>
+            <form method="post" id="fm-balance-update" action="/ajax/ussd/balance">
+                <td><input type="submit" value="Update Balance"/></td>
+            </form>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block right %}
+<div class="module">
+    <div class="toolbar">
+        <a href="/ussd/csv/purchases" class="export">{% trans "Export Airtime Bundle Purchases" %}</a>
+    </div>
+
+    <h2>Airtime Bundle Purchases</h2>
+    <table width="100%">
+        <thead>
+        <tr>
+            <th>Mobile Operator</th>
+            <th>Amount</th>
+            <th>Initiated</th>
+            <th>Destination</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for purch in purchases %}
+        <tr>
+            <td>{{ purch.sim.operator_name }}</td>
+            <td>{{ purch.amount }} CFA</td>
+            <td>{{ purch.initiated|date:"d-M-Y H:m:s" }}</td>
+            <td>{{ purch.destination }}</td>
+            <td>{{ purch.get_status_display }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+<h2>Purchase Airtime Bundle</h2>
+<div>
+    <fieldset>
+        <form method="post" id="fm-trans-new" action="/ajax/ussd/transfer">
+            <label for="fm-trans-new-sim">Transfer from SIM</label>
+            <select id="fm-trans-new-sim" name="sim">
+                {% for sim in sims %}
+                <option value="{{ sim.pk }}">{{ sim.operator_name }}</option>
+                {% endfor %}
+            </select>
+            <label for="fm-trans-new-amt">Amount</label>
+            <input type="text" class="required" size="5" id="fm-trans-new-amt" name="amount"/>
+            <label for="fm-trans-new-dest">Destination</label>
+            <input type="text" class="required" id="fm-trans-new-dest" name="destination"/>
+            <input type="submit" value="Transfer Airtime"/>
+        </form>
+    </fieldset>
+</div>
+<div>
+    <fieldset>
+        <form method="post" id="fm-bulk" action="/ussd/bulk" enctype="multipart/form-data">
+            <label for="fm-bulk-sim">Transfer from SIM</label>
+            <select id="fm-bulk-sim" name="sim">
+                {% for sim in sims %}
+                <option value="{{ sim.pk }}">{{ sim.operator_name }}</option>
+                {% endfor %}
+            </select>
+            <label for="fm-bulk-amt">Amount</label>
+            <input type="text" class="required" size="5" id="fm-bulk-amt" name="amount"/>
+            <label for="fm-bulk-file">CSV file</label>
+            <input type="file" id="fm-bulk-file" name="file"/>
+            <input type="submit" value="Bulk Transfer Airtime"/>
+    </fieldset>
+</div>
+{% endblock %}
+
+    
+
+

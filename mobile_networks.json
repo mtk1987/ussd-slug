@@ -1,0 +1,25 @@
+[{
+
+	"Country Name":"Zambia",
+	"Country Code":"ZM",
+	"Operator Short":"MTN",
+	"Operator Numeric":"260960",
+	"Operator Identities": "['MTN', '+2609601111']",
+	"USSD Balance":"#123#",
+	"USSD Bundle Purchase":"#116*1*%(destination)s*%(amount)s*%(PIN)s#",
+	"USSD Load Airtime":"*123*%(code)s*",
+	"Subscriber Pattern":"^(\\+?260|0)(96)\\d{7}$"
+  },
+  {
+	"Country Name":"Zambia",
+	"Country Code":"ZM",
+	"Operator Short":"ZAMTEL",
+	"Subscriber Pattern":"^(\\+?260|0)(95)\\d{7}$"
+  },
+  {
+	"Country Name":"Zambia",
+	"Country Code":"ZM",
+	"Operator Short":"AIRTEL",
+	"Subscriber Pattern":"^(\\+?260|0)(97)\\d{7}$"
+  }
+]
